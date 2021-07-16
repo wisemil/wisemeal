@@ -1,0 +1,15 @@
+version: "3"
+
+services:
+  wisemeal-mysql:
+    image: mysql:5.7
+    volumes:
+      - ./db/live/:/docker-entrypoint-initdb.d/
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --default-time-zone='+9:00'
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=wisemeal
+      - MYSQL_USER=wisemeal_app
+      - MYSQL_PASSWORD=wisemeal_app
+    ports:
+      - "${MYSQL_PORT-6021}:3306"

@@ -30,7 +30,10 @@ allprojects {
 
 val kotlinProjects = listOf(
     project(":wisemeal-core"),
-    project(":wisemeal-api")
+    project(":wisemeal-api"),
+    project(":wisemeal-application"),
+    project(":wisemeal-admin:wisemeal-admin-server"),
+    project(":wisemeal-clients:map")
 )
 configure(kotlinProjects) {
     apply {
@@ -163,17 +166,10 @@ configure(kotlinProjects) {
 
 }
 
-tasks.register("buildAll", GradleBuild::class) {
-    tasks = listOf(
-        "clean",
-        "build",
-        "integrationTest"
-    )
-}
-
 val requireRestDocProjects = listOf(
     project(":wisemeal-api")
 )
+
 configure(requireRestDocProjects) {
     apply {
         plugin("io.spring.dependency-management")
@@ -188,4 +184,12 @@ configure(requireRestDocProjects) {
 
         testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
     }
+}
+
+tasks.register("buildAll", GradleBuild::class) {
+    tasks = listOf(
+        "clean",
+        "build",
+        "integrationTest"
+    )
 }

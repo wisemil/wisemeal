@@ -1,0 +1,3 @@
+[submodule "wisemeal-secret"]
+	path = wisemeal-secret
+	url = https://github.com/wisemil/wisemeal-secret.git

@@ -1,6 +1,5 @@
-package wisemil.wisemeal.api.config
+package wisemil.wisemeal.admin.config
 
-import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Import
 import wisemil.wisemeal.application.config.WiseMealApplicationConfiguration
@@ -9,8 +8,4 @@ import wisemil.wisemeal.application.config.WiseMealApplicationConfiguration
     WiseMealApplicationConfiguration::class
 ])
 @Configuration
-@ComponentScan(value = [
-    "wisemil.wisemeal.api.domain"
-])
-class WiseMealApiConfiguration
-
+class WiseMealAdminConfiguration

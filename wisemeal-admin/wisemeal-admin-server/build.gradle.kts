@@ -6,18 +6,14 @@ tasks.getByName<Jar>("jar") {
 
 tasks.getByName<BootJar>("bootJar") {
     enabled = true
-    mainClassName = "wisemil.wisemeal.api.main.WiseMealApiApplicationKt"
+    mainClassName = "wisemil.wisemeal.admin.main.WiseMealAdminApplicationKt"
     archiveFileName.set("${archiveBaseName.get()}.${archiveExtension.get()}")
-
-    dependsOn(tasks.asciidoctor)
-    from("build/asciidoc/html5") {
-        into ("BOOT-INF/classes/static/docs")
-    }
 }
 
 plugins {
     kotlin("plugin.spring")
     kotlin("plugin.jpa")
+    kotlin("plugin.noarg")
     kotlin("plugin.allopen")
     id("org.springframework.boot")
 }
@@ -27,17 +23,4 @@ dependencies {
     implementation(project(":wisemeal-application"))
 
     implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("org.springframework.boot:spring-boot-configuration-processor")
-
-}
-
-val snippetsDir = file("build/generated-snippets")
-
-tasks.test {
-    outputs.dir(snippetsDir)
-}
-
-tasks.asciidoctor {
-    inputs.dir(snippetsDir)
-    dependsOn(tasks.test)
 }

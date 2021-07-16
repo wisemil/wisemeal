@@ -1,0 +1,9 @@
+spring:
+  profiles:
+    include:
+      - db
+    active: local
+
+---
+spring:
+  profiles: local,test
