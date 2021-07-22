@@ -11,16 +11,12 @@ pluginManagement {
 rootProject.name = "wisemeal"
 
 include(
-    "wisemeal-core",
-    "wisemeal-api",
-    "wisemeal-admin:wisemeal-admin-server",
-    "wisemeal-admin:wisemeal-admin-front",
-    "wisemeal-application",
+"wisemeal-core",
+"wisemeal-api",
+"wisemeal-admin:wisemeal-admin-server",
+"wisemeal-admin:wisemeal-admin-front",
+"wisemeal-application",
+"wisemeal-common",
 //clients
-    "wisemeal-clients:map"
+"wisemeal-clients:map"
 )
-include("wisemeal-api")
-include("wisemeal-application")
-include("wisemeal-admin")
-include("wisemeal-admin:wisemeal-admin-front")
-findProject(":wisemeal-admin:wisemeal-admin-front")?.name = "wisemeal-admin-front"

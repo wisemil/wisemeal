@@ -21,7 +21,6 @@ allprojects {
 
     repositories {
         mavenCentral()
-        maven("https://jitpack.io")
     }
 
     group = "${property("projectGroup")}"
@@ -32,6 +31,7 @@ val kotlinProjects = listOf(
     project(":wisemeal-core"),
     project(":wisemeal-api"),
     project(":wisemeal-application"),
+    project(":wisemeal-common"),
     project(":wisemeal-admin:wisemeal-admin-server"),
     project(":wisemeal-clients:map")
 )
@@ -41,7 +41,6 @@ configure(kotlinProjects) {
         plugin<KotlinPlatformJvmPlugin>()
         plugin("io.spring.dependency-management")
         plugin("org.springframework.boot")
-        plugin("jacoco")
     }
 
     dependencyManagement {
@@ -117,51 +116,14 @@ configure(kotlinProjects) {
         dependsOn("processResources")
     }
 
-    configure<JacocoPluginExtension> {
-        toolVersion = Dependencies.Versions.jacoco
-    }
-
-    tasks.withType<JacocoReport> {
-        executionData.setFrom(fileTree(buildDir).include("jacoco/jacoco*.exec"))
-        reports {
-            html.isEnabled = false
-            xml.isEnabled = true
-            csv.isEnabled = false
-        }
-    }
-
-    tasks.withType<JacocoCoverageVerification> {
-        violationRules {
-            rule {
-                element = "BUNDLE"
-
-                limit {
-                    counter = "BRANCH"
-                    value = "COVEREDRATIO"
-                    minimum = "0.5".toBigDecimal()
-                }
-            }
-        }
-    }
-
     tasks.withType<Test> {
-        useJUnitPlatform {
-            excludeTags.add("integration")
-        }
-        extensions.configure(JacocoTaskExtension::class) {
-            setDestinationFile(file("${buildDir}/jacoco/jacoco.exec"))
-        }
-        finalizedBy("jacocoTestReport")
+        useJUnitPlatform {}
     }
 
     tasks.register("integrationTest", Test::class) {
         useJUnitPlatform {
             includeTags.add("integration")
         }
-        extensions.configure(JacocoTaskExtension::class) {
-            setDestinationFile(file("${buildDir}/jacoco/jacocoIntegration.exec"))
-        }
-        finalizedBy("jacocoTestReport")
     }
 
 }

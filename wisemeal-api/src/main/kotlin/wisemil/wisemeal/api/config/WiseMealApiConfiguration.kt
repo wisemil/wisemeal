@@ -6,7 +6,9 @@ import org.springframework.context.annotation.Import
 import wisemil.wisemeal.application.config.WiseMealApplicationConfiguration
 
 @Import(value = [
-    WiseMealApplicationConfiguration::class
+    WiseMealApplicationConfiguration::class,
+    WiseMealWebConfig::class,
+    SecurityConfig::class,
 ])
 @Configuration
 @ComponentScan(value = [
