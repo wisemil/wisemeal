@@ -23,13 +23,41 @@ plugins {
 }
 
 dependencies {
+    implementation(project(":wisemeal-common"))
     implementation(project(":wisemeal-core"))
     implementation(project(":wisemeal-application"))
 
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-configuration-processor")
 
+    implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
 }
+
+
+tasks.processResources {
+    copy {
+        description = "secret 모듈의 기밀 파일을 운영 모듈로 옮긴다."
+        from("../wisemeal-secret/api")
+        into("src/main/resources")
+    }
+}
+
+tasks {
+    description = "운영 모듈에서 작성한 기밀파일을 secret 모듈로 옮긴다."
+    val backUpApiSecret = "backUpApiSecret"
+
+    val secretContents = copySpec {
+        from("src/main/resources")
+        include("application-auth.yml")
+    }
+
+    register(backUpApiSecret, Copy::class) {
+        into("../wisemeal-secret/api")
+        includeEmptyDirs = false
+        with(secretContents)
+    }
+}
+
 
 val snippetsDir = file("build/generated-snippets")
 

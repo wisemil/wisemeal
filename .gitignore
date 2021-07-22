@@ -138,3 +138,4 @@ gradle-app.setting
 
 # secret files
 **/application-db-prod.yml
+**/application-auth.yml

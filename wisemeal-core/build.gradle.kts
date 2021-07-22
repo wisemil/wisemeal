@@ -28,6 +28,8 @@ allOpen {
 }
 
 dependencies {
+    implementation(project(":wisemeal-common"))
+
     api("org.springframework.boot:spring-boot-starter-data-jpa")
     api("org.hibernate:hibernate-envers")
     api("com.querydsl:querydsl-jpa")
