@@ -8,3 +8,7 @@ spring:
 ---
 spring:
   profiles: local,test
+
+---
+spring:
+  profiles: prod
