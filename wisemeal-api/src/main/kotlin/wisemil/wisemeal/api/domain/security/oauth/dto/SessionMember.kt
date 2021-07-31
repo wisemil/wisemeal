@@ -1,4 +1,4 @@
-package wisemil.wisemeal.api.domain.security.dto
+package wisemil.wisemeal.api.domain.security.oauth.dto
 
 import wisemil.wisemeal.application.domain.member.dto.WisemilMemberDto
 import java.io.Serializable

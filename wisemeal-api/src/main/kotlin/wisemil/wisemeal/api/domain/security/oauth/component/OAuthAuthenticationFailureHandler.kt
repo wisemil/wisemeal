@@ -1,11 +1,11 @@
-package wisemil.wisemeal.api.domain.security.component
+package wisemil.wisemeal.api.domain.security.oauth.component
 
 import org.springframework.security.core.AuthenticationException
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler
 import org.springframework.stereotype.Component
 import org.springframework.web.util.UriComponentsBuilder
-import wisemil.wisemeal.api.domain.security.component.HttpCookieOAuth2AuthorizationRequestRepository.Companion.WISEMIL_REDIRECT_URI
-import wisemil.wisemeal.api.domain.security.extension.cookie
+import wisemil.wisemeal.api.domain.security.oauth.component.HttpCookieOAuth2AuthorizationRequestRepository.Companion.WISEMIL_REDIRECT_URI
+import wisemil.wisemeal.api.domain.security.oauth.extension.cookie
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 

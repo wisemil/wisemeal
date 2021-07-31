@@ -1,4 +1,4 @@
-package wisemil.wisemeal.api.domain.security.service
+package wisemil.wisemeal.api.domain.security.oauth.service
 
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService
@@ -8,9 +8,9 @@ import org.springframework.security.oauth2.core.user.DefaultOAuth2User
 import org.springframework.security.oauth2.core.user.OAuth2User
 import org.springframework.stereotype.Service
 import wisemil.wisemeal.api.domain.member.service.MemberSignUpService
-import wisemil.wisemeal.api.domain.security.dto.OAuthAttribute
-import wisemil.wisemeal.api.domain.security.dto.SessionMember
-import wisemil.wisemeal.api.domain.security.dto.SessionMember.Companion.SESSION_KEY
+import wisemil.wisemeal.api.domain.security.oauth.dto.OAuthAttribute
+import wisemil.wisemeal.api.domain.security.oauth.dto.SessionMember
+import wisemil.wisemeal.api.domain.security.oauth.dto.SessionMember.Companion.SESSION_KEY
 import wisemil.wisemeal.application.domain.member.dto.WisemilMemberDto
 import wisemil.wisemeal.application.domain.member.repository.WiseMilMemberRepository
 import wisemil.wisemeal.common.collection.toList

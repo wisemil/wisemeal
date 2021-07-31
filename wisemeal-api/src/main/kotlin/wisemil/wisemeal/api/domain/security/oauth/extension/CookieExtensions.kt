@@ -1,4 +1,4 @@
-package wisemil.wisemeal.api.domain.security.extension
+package wisemil.wisemeal.api.domain.security.oauth.extension
 
 import javax.servlet.http.Cookie
 import javax.servlet.http.HttpServletRequest
