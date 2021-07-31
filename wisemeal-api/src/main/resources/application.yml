@@ -4,11 +4,22 @@ spring:
       - db
       - auth
     active: local
+wisemil:
+  security:
+    mode: stub
 
 ---
 spring:
-  profiles: local,test
-
+  profiles: test
+---
+spring:
+  profiles: local
+wisemil:
+  security:
+    mode: oauth
 ---
 spring:
   profiles: prod
+wisemil:
+  security:
+    mode: oauth
