@@ -5,5 +5,8 @@ enum class ApiResponseCode(
     val message: String,
 ) {
     OK("0000", "성공"),
-    INTERNAL_ERROR("E999", "서버 내부 오류"),
+
+    BAD_REQUEST("E400", "잘못된 요청"),
+
+    INTERNAL_ERROR("I999", "서버 내부 오류"),
 }
