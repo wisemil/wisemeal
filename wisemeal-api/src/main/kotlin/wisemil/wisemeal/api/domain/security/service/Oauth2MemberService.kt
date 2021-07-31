@@ -14,7 +14,7 @@ import wisemil.wisemeal.api.domain.security.dto.SessionMember.Companion.SESSION_
 import wisemil.wisemeal.application.domain.member.dto.WisemilMemberDto
 import wisemil.wisemeal.application.domain.member.repository.WiseMilMemberRepository
 import wisemil.wisemeal.common.collection.toList
-import wisemil.wisemeal.core.domain.member.model.SignType
+import wisemil.wisemeal.core.domain.member.dto.WisemilMemberCreator
 import javax.servlet.http.HttpSession
 
 @Service
@@ -44,11 +44,13 @@ class Oauth2MemberService(
     }
 
     private fun mergeMember(attribute: OAuthAttribute): WisemilMemberDto {
-        return memberRepository.findByEmailAndSignType(attribute.email, SignType.GOOGLE)
+        return memberRepository.findByEmailAndSignType(attribute.email, attribute.signType)
             ?.let { WisemilMemberDto.from(it) }
             ?: memberSignUpService.signUp(
-                email = attribute.email,
-                signType = SignType.GOOGLE
+                WisemilMemberCreator(
+                    email = attribute.email,
+                    signType = attribute.signType,
+                )
             )
     }
 }
