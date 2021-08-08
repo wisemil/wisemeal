@@ -15,4 +15,3 @@ import wisemil.wisemeal.application.config.WiseMealApplicationConfiguration
     "wisemil.wisemeal.api.domain"
 ])
 class WiseMealApiConfiguration
-

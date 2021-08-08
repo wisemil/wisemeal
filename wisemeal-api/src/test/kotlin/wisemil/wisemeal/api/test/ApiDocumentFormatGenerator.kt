@@ -34,7 +34,7 @@ object ApiDocumentFormatGenerator {
         return enumClass.enumConstants.joinToString(separator = "\n")
     }
 
-    fun defaultValue(defaultValue: String?): Attributes.Attribute? {
+    fun defaultValue(defaultValue: String? = null): Attributes.Attribute? {
         return Attributes.key("defaultValue").value(defaultValue)
     }
 

@@ -22,10 +22,6 @@ object ApiMockMvcFactory {
         return getMockMvcBuilder(controller).apply<StandaloneMockMvcBuilder>(documentationConfigurer).build()
     }
 
-    fun convertAsJson(dto: Any): String {
-        return getMessageConverter().objectMapper.writeValueAsString(dto)
-    }
-
     private fun getMockMvcBuilder(controller: Any): StandaloneMockMvcBuilder {
         val conversionService = DefaultFormattingConversionService()
         for (parameterBinder in listOf(LocalDateConverter())) {

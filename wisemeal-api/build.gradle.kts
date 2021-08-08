@@ -11,7 +11,7 @@ tasks.getByName<BootJar>("bootJar") {
 
     dependsOn(tasks.asciidoctor)
     from("build/asciidoc/html5") {
-        into ("BOOT-INF/classes/static/docs")
+        into ("static/docs")
     }
 }
 
@@ -31,6 +31,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-configuration-processor")
 
     implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
+    testImplementation("org.springframework.security:spring-security-test")
 }
 
 
@@ -57,7 +58,6 @@ tasks {
         with(secretContents)
     }
 }
-
 
 val snippetsDir = file("build/generated-snippets")
 

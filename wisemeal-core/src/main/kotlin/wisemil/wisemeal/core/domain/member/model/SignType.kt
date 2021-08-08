@@ -4,7 +4,7 @@ enum class SignType(val registrationId: String) {
     NAVER("naver"),
     KAKAO("kakao"),
     GOOGLE("google"),
-    WISEMIL("wisemil"),
+    WISEMEAL("wisemeal"),
     ;
 
     companion object {

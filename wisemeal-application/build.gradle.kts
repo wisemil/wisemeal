@@ -17,6 +17,7 @@ plugins {
 
 dependencies {
     implementation(project(":wisemeal-core"))
+    implementation(project(":wisemeal-common"))
 
     runtimeOnly("com.h2database:h2")
     api("org.mariadb.jdbc:mariadb-java-client")

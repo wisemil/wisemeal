@@ -1,0 +1,29 @@
+### wisemeal sign up
+POST /api/v1/members HTTP/1.1
+Content-Type: application/json
+Host: localhost:8080
+
+{
+  "email" : "pci2676@gmail.com",
+  "password" : "1234",
+  "nickname" : "없어도 됨"
+}
+
+
+### form login
+POST /api/v1/members/login
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+Host: localhost:8080
+
+--WebAppBoundary
+Content-Disposition: form-data; name="username"
+
+pci2676@gmail.com
+--WebAppBoundary
+Content-Disposition: form-data; name="password"
+
+1234
+--WebAppBoundary--
+
+###
+

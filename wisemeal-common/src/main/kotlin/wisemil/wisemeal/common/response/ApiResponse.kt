@@ -37,7 +37,7 @@ data class ApiResponse<T>(
 
         fun of(responseCode: ApiResponseCode, message: String?) = ApiResponse(
             code = responseCode.code,
-            message = responseCode.message,
+            message = message ?: responseCode.message,
             data = null
         )
 

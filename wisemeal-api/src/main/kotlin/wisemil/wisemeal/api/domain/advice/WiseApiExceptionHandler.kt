@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestControllerAdvice
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException
-import wisemil.wisemeal.common.exception.WisemealBadRequestException
-import wisemil.wisemeal.common.exception.WisemealSystemException
+import wisemil.wisemeal.common.exception.base.WisemealBadRequestException
+import wisemil.wisemeal.common.exception.base.WisemealSystemException
 import wisemil.wisemeal.common.log.logger
 import wisemil.wisemeal.common.response.ApiResponse
 import wisemil.wisemeal.common.response.ApiResponseCode

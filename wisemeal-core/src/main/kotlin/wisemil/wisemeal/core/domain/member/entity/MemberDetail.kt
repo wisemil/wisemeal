@@ -1,8 +1,14 @@
 package wisemil.wisemeal.core.domain.member.entity
 
+import wisemil.wisemeal.common.exception.member.IncorrectPasswordException
 import wisemil.wisemeal.core.domain.base.BaseEntity
+import wisemil.wisemeal.core.domain.member.model.MemberStatus
+import wisemil.wisemeal.core.domain.member.model.Password
+import java.time.LocalDateTime
 import javax.persistence.Column
 import javax.persistence.Entity
+import javax.persistence.EnumType
+import javax.persistence.Enumerated
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
 import javax.persistence.Id
@@ -13,7 +19,7 @@ import javax.persistence.Table
  *
  * 회원 : 세부내용 = 1 : 1
  */
-@Table(name = "wisemil_member_detail")
+@Table(name = "wisemeal_member_detail")
 @Entity
 class MemberDetail(
     encryptedPassword: String? = null,
@@ -29,8 +35,24 @@ class MemberDetail(
     var encryptedPassword: String? = encryptedPassword
         protected set
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false, columnDefinition = "VARCHAR(10) COMMENT '회원 계정 상태'")
+    var status: MemberStatus = MemberStatus.ENABLE
+        protected set
 
     @Column(name = "nickname", nullable = true, columnDefinition = "VARCHAR(32) COMMENT '닉네임'")
     var nickname: String? = nickName
         protected set
+
+    @Column(name = "last_login_at", columnDefinition = "datetime(6) COMMENT '마지막 로그인 일시'")
+    var lastLoginAt: LocalDateTime = LocalDateTime.now()
+
+    fun attemptLogin(password: Password, attemptTime: LocalDateTime) {
+        if (password.isNotMatch(encryptedPassword!!)) {
+            throw IncorrectPasswordException()
+        }
+
+        this.lastLoginAt = attemptTime
+    }
+
 }
