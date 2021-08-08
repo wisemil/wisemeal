@@ -7,20 +7,20 @@ import org.springframework.security.oauth2.client.userinfo.OAuth2UserService
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User
 import org.springframework.security.oauth2.core.user.OAuth2User
 import org.springframework.stereotype.Service
-import wisemil.wisemeal.api.domain.member.service.MemberSignUpService
+import wisemil.wisemeal.api.domain.sign.service.SignService
 import wisemil.wisemeal.api.domain.security.oauth.dto.OAuthAttribute
-import wisemil.wisemeal.api.domain.security.oauth.dto.SessionMember
-import wisemil.wisemeal.api.domain.security.oauth.dto.SessionMember.Companion.SESSION_KEY
-import wisemil.wisemeal.application.domain.member.dto.WisemilMemberDto
-import wisemil.wisemeal.application.domain.member.repository.WiseMilMemberRepository
+import wisemil.wisemeal.api.domain.security.wisemeal.dto.SessionMember
+import wisemil.wisemeal.api.domain.security.wisemeal.dto.SessionMember.Companion.SESSION_KEY
+import wisemil.wisemeal.application.domain.member.dto.WisemealMemberDto
+import wisemil.wisemeal.application.domain.member.repository.WiseMealMemberRepository
 import wisemil.wisemeal.common.collection.toList
-import wisemil.wisemeal.core.domain.member.dto.WisemilMemberCreator
+import wisemil.wisemeal.core.domain.member.dto.WisemealMemberCreator
 import javax.servlet.http.HttpSession
 
 @Service
 class Oauth2MemberService(
-    private val memberRepository: WiseMilMemberRepository,
-    private val memberSignUpService: MemberSignUpService,
+    private val memberRepository: WiseMealMemberRepository,
+    private val signService: SignService,
     private val session: HttpSession,
 ) : OAuth2UserService<OAuth2UserRequest, OAuth2User> {
 
@@ -43,11 +43,11 @@ class Oauth2MemberService(
         )
     }
 
-    private fun mergeMember(attribute: OAuthAttribute): WisemilMemberDto {
+    private fun mergeMember(attribute: OAuthAttribute): WisemealMemberDto {
         return memberRepository.findByEmailAndSignType(attribute.email, attribute.signType)
-            ?.let { WisemilMemberDto.from(it) }
-            ?: memberSignUpService.signUp(
-                WisemilMemberCreator(
+            ?.let { WisemealMemberDto.from(it) }
+            ?: signService.signUp(
+                WisemealMemberCreator(
                     email = attribute.email,
                     signType = attribute.signType,
                 )

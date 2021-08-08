@@ -1,4 +1,6 @@
 spring:
+  profiles:
+    include: db-prod
   jpa:
     hibernate:
       ddl-auto: none
@@ -14,8 +16,6 @@ spring:
     open-in-view: false
   flyway:
     enabled: false
-  profiles:
-    include: db-prod
 ---
 spring:
   profiles: test

@@ -3,9 +3,9 @@ package wisemil.wisemeal.api.domain.security.oauth.component
 import org.springframework.security.oauth2.client.web.AuthorizationRequestRepository
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest
 import org.springframework.stereotype.Component
-import wisemil.wisemeal.api.domain.security.oauth.extension.cookie
-import wisemil.wisemeal.api.domain.security.oauth.extension.deleteCookie
-import wisemil.wisemeal.api.domain.security.oauth.extension.putCookie
+import wisemil.wisemeal.api.domain.security.extension.cookie
+import wisemil.wisemeal.api.domain.security.extension.deleteCookie
+import wisemil.wisemeal.api.domain.security.extension.putCookie
 import wisemil.wisemeal.common.encode.deserializeBase64
 import wisemil.wisemeal.common.encode.serializeBase64
 import javax.servlet.http.HttpServletRequest

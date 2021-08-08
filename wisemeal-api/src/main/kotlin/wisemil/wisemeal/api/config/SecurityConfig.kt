@@ -7,10 +7,11 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
-import wisemil.wisemeal.api.domain.security.component.HttpCookieOAuth2AuthorizationRequestRepository
-import wisemil.wisemeal.api.domain.security.component.OAuthAuthenticationFailureHandler
-import wisemil.wisemeal.api.domain.security.component.OAuthAuthenticationSuccessHandler
-import wisemil.wisemeal.api.domain.security.service.Oauth2MemberService
+import wisemil.wisemeal.api.domain.security.oauth.component.HttpCookieOAuth2AuthorizationRequestRepository
+import wisemil.wisemeal.api.domain.security.oauth.component.OAuthAuthenticationFailureHandler
+import wisemil.wisemeal.api.domain.security.oauth.component.OAuthAuthenticationSuccessHandler
+import wisemil.wisemeal.api.domain.security.oauth.service.Oauth2MemberService
+import wisemil.wisemeal.api.domain.security.wisemeal.component.WisemealAccessDeniedHandler
 import wisemil.wisemeal.core.domain.member.model.MemberRole
 
 
@@ -28,8 +29,6 @@ class SecurityConfig {
     class ProdSecurityConfig(
         private val oauth2MemberService: Oauth2MemberService,
         private val httpCookieOAuth2AuthorizationRequestRepository: HttpCookieOAuth2AuthorizationRequestRepository,
-        private val oAuthAuthenticationSuccessHandler: OAuthAuthenticationSuccessHandler,
-        private val oAuthAuthenticationFailureHandler: OAuthAuthenticationFailureHandler,
     ) : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http
@@ -48,8 +47,8 @@ class SecurityConfig {
                 .anyRequest().authenticated()
 
                 .and()
-                .logout()
-                .logoutSuccessUrl("/")
+                .exceptionHandling()
+                .accessDeniedHandler(WisemealAccessDeniedHandler())
 
                 .and()
                 .oauth2Login()
@@ -64,8 +63,8 @@ class SecurityConfig {
                 .userService(oauth2MemberService)
 
                 .and()
-                .successHandler(oAuthAuthenticationSuccessHandler)
-                .failureHandler(oAuthAuthenticationFailureHandler)
+                .successHandler(OAuthAuthenticationSuccessHandler(httpCookieOAuth2AuthorizationRequestRepository))
+                .failureHandler(OAuthAuthenticationFailureHandler(httpCookieOAuth2AuthorizationRequestRepository))
         }
     }
 

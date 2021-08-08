@@ -117,7 +117,9 @@ configure(kotlinProjects) {
     }
 
     tasks.withType<Test> {
-        useJUnitPlatform {}
+        useJUnitPlatform {
+            excludeTags.add("integration")
+        }
     }
 
     tasks.register("integrationTest", Test::class) {
@@ -152,6 +154,7 @@ tasks.register("buildAll", GradleBuild::class) {
     tasks = listOf(
         "clean",
         "build",
+        "test",
         "integrationTest"
     )
 }
