@@ -18,5 +18,6 @@ include(
 "wisemeal-application",
 "wisemeal-common",
 //clients
-"wisemeal-clients:map"
+"wisemeal-clients:map",
+"wisemeal-clients:jwt"
 )
