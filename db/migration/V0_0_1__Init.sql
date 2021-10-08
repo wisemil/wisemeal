@@ -27,7 +27,7 @@ CREATE TABLE wisemeal_member
 CREATE TABLE wisemeal_member_detail
 (
     id            bigint       NOT NULL AUTO_INCREMENT COMMENT 'ID',
-    password      varchar(300) NOT NULL COMMENT '암호화 된 비밀번호',
+    password      varchar(300) NULL COMMENT '암호화 된 비밀번호',
     nickname      varchar(32)  NULL COMMENT '닉네임',
     status        varchar(10)  NOT NULL COMMENT '회원 계정 상태',
     last_login_at datetime(6)  NOT NULL COMMENT '마지막 로그인 일시',

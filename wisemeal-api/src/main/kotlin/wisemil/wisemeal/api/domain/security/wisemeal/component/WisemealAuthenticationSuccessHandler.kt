@@ -49,7 +49,7 @@ abstract class WisemealAuthenticationSuccessHandler : SimpleUrlAuthenticationSuc
         // TODO 등록된 redirect uri 만 허용하도록
     }
 
-    protected fun clearAuthenticationAttributes(request: HttpServletRequest, response: HttpServletResponse) {
+    protected fun clearAuthentication(request: HttpServletRequest, response: HttpServletResponse) {
         super.clearAuthenticationAttributes(request)
     }
 }

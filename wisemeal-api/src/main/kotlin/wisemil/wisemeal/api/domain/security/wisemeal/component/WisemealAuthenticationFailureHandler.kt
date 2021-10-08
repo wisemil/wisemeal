@@ -24,6 +24,7 @@ open class WisemealAuthenticationFailureHandler : SimpleUrlAuthenticationFailure
             .build().toUriString()
 
         removeAuthorizationCookie(request, response, exception)
+        request.session.invalidate()
 
         redirectStrategy.sendRedirect(request, response, targetUrl)
     }

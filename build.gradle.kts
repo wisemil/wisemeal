@@ -33,7 +33,8 @@ val kotlinProjects = listOf(
     project(":wisemeal-application"),
     project(":wisemeal-common"),
     project(":wisemeal-admin:wisemeal-admin-server"),
-    project(":wisemeal-clients:map")
+    project(":wisemeal-clients:map"),
+    project(":wisemeal-clients:jwt")
 )
 configure(kotlinProjects) {
     apply {
