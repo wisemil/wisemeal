@@ -13,6 +13,7 @@ import wisemil.wisemeal.api.domain.security.oauth.component.OAuthAuthenticationS
 import wisemil.wisemeal.api.domain.security.oauth.service.Oauth2MemberService
 import wisemil.wisemeal.api.domain.security.wisemeal.component.WisemealAccessDeniedHandler
 import wisemil.wisemeal.core.domain.member.model.MemberRole
+import wisemil.wisemeal.jwt.spec.JwtToken
 
 
 @Configuration
@@ -25,10 +26,11 @@ class SecurityConfig {
     }
 
     @EnableWebSecurity
-    @ConditionalOnProperty(name = ["wisemil.security.mode"], havingValue = "oauth")
+    @ConditionalOnProperty(name = ["wisemeal.security.mode"], havingValue = "oauth")
     class ProdSecurityConfig(
         private val oauth2MemberService: Oauth2MemberService,
         private val httpCookieOAuth2AuthorizationRequestRepository: HttpCookieOAuth2AuthorizationRequestRepository,
+        private val jwtToken: JwtToken,
     ) : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http
@@ -63,7 +65,7 @@ class SecurityConfig {
                 .userService(oauth2MemberService)
 
                 .and()
-                .successHandler(OAuthAuthenticationSuccessHandler(httpCookieOAuth2AuthorizationRequestRepository))
+                .successHandler(OAuthAuthenticationSuccessHandler(httpCookieOAuth2AuthorizationRequestRepository, jwtToken))
                 .failureHandler(OAuthAuthenticationFailureHandler(httpCookieOAuth2AuthorizationRequestRepository))
         }
     }

@@ -5,9 +5,14 @@ import wisemil.wisemeal.core.domain.member.model.SignType
 data class OAuthAttribute(
     val signType: SignType,
     val email: String,
-    val attributes: Map<String, Any>,
+    val attributes: MutableMap<String, Any>,
     val nameAttributeKey: String?,
 ) {
+
+    fun addAttribute(key: String, value: Any) {
+        attributes[key] = value
+    }
+
     companion object {
         fun from(
             registrationId: String,
@@ -17,7 +22,7 @@ data class OAuthAttribute(
             return OAuthAttribute(
                 signType = SignType.findByRegistrationId(registrationId),
                 email = attributes["email"] as String,
-                attributes = attributes,
+                attributes = attributes.toMutableMap(),
                 nameAttributeKey = useNameAttributeName,
             )
         }

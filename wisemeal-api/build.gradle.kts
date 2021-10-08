@@ -26,6 +26,7 @@ dependencies {
     implementation(project(":wisemeal-common"))
     implementation(project(":wisemeal-core"))
     implementation(project(":wisemeal-application"))
+    implementation(project(":wisemeal-clients:jwt"))
 
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-configuration-processor")
