@@ -1,7 +1,9 @@
-name: branch ci workflow
+name: branch test
+
 on: [push]
+
 jobs:
-  Continuous-Integration:
+  Test:
     runs-on: ubuntu-latest
     steps:
       - run: echo "target branch is ${{ github.ref }}"
@@ -12,8 +14,6 @@ jobs:
           distribution: 'adopt'
           java-version: '11'
       - name: Unit Test
-        uses: ./gradlew test
+        run: ./gradlew test
       - name: Integration Test
-        uses: ./gradlew integrationTest
-      - name: Build to JAR
-        uses: ./gradlew build -x test
+        run: ./gradlew integrationTest

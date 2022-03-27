@@ -65,6 +65,7 @@ configure(kotlinProjects) {
 
 val kotlinSpringBootProjects = listOf(
     project(":wisemeal-api"),
+    project(":wisemeal-batch"),
     project(":wisemeal-persistence:jpa-adapter"),
     project(":wisemeal-external:map:kakao-adapter")
 )
