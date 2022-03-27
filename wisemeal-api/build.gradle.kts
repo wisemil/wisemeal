@@ -6,13 +6,13 @@ tasks.getByName<Jar>("jar") {
 
 tasks.getByName<BootJar>("bootJar") {
     enabled = true
-    mainClassName = "wisemil.wisemeal.api.main.WiseMealApiApplicationKt"
-    archiveFileName.set("${archiveBaseName.get()}.${archiveExtension.get()}")
+//    mainClassName = "baemin.paymoney.api.main.PaymoneyApiApplicationKt"
+//    archiveFileName.set("${archiveBaseName.get()}.${archiveExtension.get()}")
 
-    dependsOn(tasks.asciidoctor)
-    from("build/asciidoc/html5") {
-        into ("BOOT-INF/classes/static/docs")
-    }
+//    dependsOn(tasks.asciidoctor)
+//    from("build/asciidoc/html5") {
+//        into ("BOOT-INF/classes/static/docs")
+//    }
 }
 
 plugins {
@@ -22,22 +22,8 @@ plugins {
     id("org.springframework.boot")
 }
 
-dependencies {
-    implementation(project(":wisemeal-core"))
-    implementation(project(":wisemeal-application"))
 
+dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-configuration-processor")
-
-}
-
-val snippetsDir = file("build/generated-snippets")
-
-tasks.test {
-    outputs.dir(snippetsDir)
-}
-
-tasks.asciidoctor {
-    inputs.dir(snippetsDir)
-    dependsOn(tasks.test)
 }
