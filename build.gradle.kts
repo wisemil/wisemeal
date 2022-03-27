@@ -2,16 +2,15 @@ import org.jetbrains.kotlin.gradle.plugin.KotlinPlatformJvmPlugin
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("io.spring.dependency-management") version Dependencies.Versions.springDependencyManagement
     id("org.springframework.boot") version Dependencies.Versions.springBoot apply false
-    id("org.asciidoctor.convert") version Dependencies.Versions.asciidoctorConvert apply false
+    id("io.spring.dependency-management") version Dependencies.Versions.springDependencyManagement
 
     kotlin("jvm") version Dependencies.Versions.kotlin
     kotlin("plugin.spring") version Dependencies.Versions.kotlin apply false
     kotlin("plugin.jpa") version Dependencies.Versions.kotlin apply false
     kotlin("kapt") version Dependencies.Versions.kotlin apply false
-    kotlin("plugin.allopen") version Dependencies.Versions.kotlin
-    kotlin("plugin.noarg") version Dependencies.Versions.kotlin
+    kotlin("plugin.allopen") version Dependencies.Versions.kotlin apply false
+    kotlin("plugin.noarg") version Dependencies.Versions.kotlin apply false
 }
 
 allprojects {
@@ -28,28 +27,59 @@ allprojects {
 }
 
 val kotlinProjects = listOf(
-    project(":wisemeal-core"),
-    project(":wisemeal-api"),
-    project(":wisemeal-application"),
-    project(":wisemeal-common"),
-    project(":wisemeal-admin:wisemeal-admin-server"),
-    project(":wisemeal-clients:map"),
-    project(":wisemeal-clients:jwt")
+    project(":wisemeal-external:map:port"),
+    project(":wisemeal-persistence:port"),
+    project(":wisemeal-core")
 )
 configure(kotlinProjects) {
     apply {
         plugin<JavaLibraryPlugin>()
         plugin<KotlinPlatformJvmPlugin>()
-        plugin("io.spring.dependency-management")
+    }
+
+    dependencies {
+        testImplementation("io.kotest:kotest-runner-junit5-jvm:${Dependencies.Versions.kotest}")
+        testImplementation("io.kotest:kotest-assertions-core-jvm:${Dependencies.Versions.kotest}")
+        testImplementation("io.kotest:kotest-property-jvm:${Dependencies.Versions.kotest}")
+
+        testImplementation("org.junit.jupiter", "junit-jupiter", "5.8.2")
+        testImplementation("org.assertj", "assertj-core", "3.22.0")
+    }
+
+    tasks.withType<KotlinCompile> {
+        sourceCompatibility = "11"
+
+        kotlinOptions {
+            freeCompilerArgs.plus("-Xjsr305=strict")
+            freeCompilerArgs.plus("-Xjvm-default=enable")
+            freeCompilerArgs.plus("-progressive")
+            freeCompilerArgs.plus("-XXLanguage:+InlineClasses")
+
+            jvmTarget = "11"
+        }
+
+        dependsOn("processResources")
+    }
+
+}
+
+val kotlinSpringBootProjects = listOf(
+    project(":wisemeal-api"),
+    project(":wisemeal-persistence:jpa-adapter"),
+    project(":wisemeal-external:map:kakao-adapter")
+)
+configure(kotlinSpringBootProjects) {
+    apply {
+        plugin<JavaLibraryPlugin>()
+        plugin<KotlinPlatformJvmPlugin>()
         plugin("org.springframework.boot")
+        plugin("io.spring.dependency-management")
     }
 
     dependencyManagement {
         imports {
-            mavenBom("org.jetbrains.kotlin:kotlin-bom:${Dependencies.Versions.kotlin}")
-            mavenBom("org.springframework.boot:spring-boot-dependencies:${Dependencies.Versions.springBoot}")
             mavenBom("org.springframework.cloud:spring-cloud-dependencies:${Dependencies.Versions.springCloud}")
-            mavenBom("com.amazonaws:aws-java-sdk-bom:${Dependencies.Versions.awsSdk}")
+            mavenBom("org.springframework.boot:spring-boot-dependencies:${Dependencies.Versions.springBoot}")
         }
 
         dependencies {
@@ -60,45 +90,25 @@ configure(kotlinProjects) {
                 entry("kotest-property-jvm")
                 entry("kotest-extensions-spring-jvm")
             }
-            dependency("io.mockk:mockk:${Dependencies.Versions.mockk}")
-            dependencySet("io.github.microutils:${Dependencies.Versions.kotlinLogging}") {
-                entry("kotlin-logging-jvm")
-                entry("kotlin-logging-common")
-            }
         }
     }
 
     dependencies {
         implementation("org.springframework.boot:spring-boot-starter-validation")
-        implementation("org.jetbrains.kotlin:kotlin-reflect")
-        implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-        implementation("io.github.microutils:kotlin-logging-jvm")
 
         implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
         implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
 
         testImplementation("org.springframework.boot:spring-boot-starter-test")
 
-        /** @see <a href="https://kotest.io/">kotest</a>*/
         testImplementation("io.kotest:kotest-runner-junit5-jvm")
         testImplementation("io.kotest:kotest-assertions-core-jvm")
         testImplementation("io.kotest:kotest-property-jvm")
-
-        /** @see <a href="https://github.com/mockk/mockk">Mock K<a/>*/
-        testImplementation("io.mockk:mockk")
     }
 
     configurations {
         compileOnly {
             extendsFrom(configurations.annotationProcessor.get())
-        }
-    }
-
-    configurations.all {
-        resolutionStrategy.eachDependency {
-            when (requested.group) {
-                "com.squareup.okhttp3" -> useVersion("4.9.0")
-            }
         }
     }
 
@@ -129,33 +139,4 @@ configure(kotlinProjects) {
         }
     }
 
-}
-
-val requireRestDocProjects = listOf(
-    project(":wisemeal-api")
-)
-
-configure(requireRestDocProjects) {
-    apply {
-        plugin("io.spring.dependency-management")
-        plugin("org.asciidoctor.convert")
-    }
-
-    extra["snippetsDir"] = file("build/generated-snippets")
-
-    dependencies {
-        implementation("org.jetbrains.kotlin:kotlin-reflect")
-        implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-
-        testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
-    }
-}
-
-tasks.register("buildAll", GradleBuild::class) {
-    tasks = listOf(
-        "clean",
-        "build",
-        "test",
-        "integrationTest"
-    )
 }

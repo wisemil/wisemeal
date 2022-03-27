@@ -3,9 +3,11 @@ package wisemil.wisemeal.api.main
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Import
-import wisemil.wisemeal.api.config.WiseMealApiConfiguration
+import wisemil.wisemeal.api.config.WiseMealApiConfig
 
-@Import(WiseMealApiConfiguration::class)
+@Import(value = [
+    WiseMealApiConfig::class
+])
 @SpringBootApplication
 class WiseMealApiApplication
 

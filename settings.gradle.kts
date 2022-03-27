@@ -7,17 +7,13 @@ pluginManagement {
     }
 }
 
-
 rootProject.name = "wisemeal"
 
 include(
 "wisemeal-core",
 "wisemeal-api",
-"wisemeal-admin:wisemeal-admin-server",
-"wisemeal-admin:wisemeal-admin-front",
-"wisemeal-application",
-"wisemeal-common",
-//clients
-"wisemeal-clients:map",
-"wisemeal-clients:jwt"
+"wisemeal-external:map:port",
+"wisemeal-external:map:kakao-adapter",
+"wisemeal-persistence:port",
+"wisemeal-persistence:jpa-adapter"
 )
