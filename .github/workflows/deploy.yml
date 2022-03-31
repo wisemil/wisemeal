@@ -14,6 +14,10 @@ on:
 env:
   DEPLOY_DIR: ./deploy
   TARGET_SYSTEM: ${{ github.event.inputs.targetSystem }}
+  APPLICATION_NAME: application.jar
+  CODE_DEPLOY_NAME: pci-code-deploy
+  DEPLOYMENT_GROUP_NAME: pci-deploy-group
+  S3_BUCKET_NAME: pci-private
 
 jobs:
   Deploy-Application:
@@ -41,7 +45,7 @@ jobs:
           mkdir -p ./deploy
           cp ./$TARGET_SYSTEM/build/libs/*.jar $DEPLOY_DIR
           cp ./$TARGET_SYSTEM/appspec/* $DEPLOY_DIR
-          zip -r $DEPLOY_DIR/application.zip $DEPLOY_DIR/*
+          zip -r $DEPLOY_DIR/$GITHUB_SHA.zip $DEPLOY_DIR/*
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -51,10 +55,12 @@ jobs:
           aws-region: ap-northeast-2
 
       - name: Upload JAR to AWS S3
-        run: aws s3 cp --region ap-northeast-2 --acl private $DEPLOY_DIR/application.zip s3://pci-private/deploy/$TARGET_SYSTEM
+        run: aws s3 cp --region ap-northeast-2 --acl private $DEPLOY_DIR/$GITHUB_SHA.zip s3://$S3_BUCKET_NAME/deploy/$TARGET_SYSTEM/
 
-#      - name: Deploy Application
-#        run : |
-#          echo 'deploy by AWS CodeDeploy'
-#          echo 'remove deploy directory'
-#          rm -rf $DEPLOY_DIR
+      - name: Deploy Application
+        run : |
+          aws deploy create-deployment \
+          --application-name $CODE_DEPLOY_NAME \
+          --deployment-config-name CodeDeployDefault.AllAtOnce \
+          --deployment-group-name $DEPLOY_GROUP_NAME \
+          --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=deploy/$TARGET_SYSTEM/$GITHUB_SHA.zip
